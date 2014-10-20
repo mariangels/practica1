@@ -29,8 +29,6 @@ public class Principal extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-        initComponents();
-
     }
 
     @Override
@@ -59,17 +57,18 @@ public class Principal extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.opciones, menu);
     }
+
     public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         final int index = info.position;
+
         Object o = info.targetView.getTag();
         Adaptador.ViewHolder vh;
         vh = (Adaptador.ViewHolder)o;
 
         if (id == R.id.actBorrar){
-            tostada("Borrado elemento "+index +" que contiene: "+ vh.tv1.getText().toString());
-
+            tostada("Borrado elemento: "+index);
             palabras.remove(index);
             aa.notifyDataSetChanged();
 
@@ -79,6 +78,7 @@ public class Principal extends Activity {
             LayoutInflater inflater = LayoutInflater.from(this);
             final View vista = inflater.inflate(R.layout.aniadir, null);
             alert.setView(vista);
+
             EditText txNombre=null, txIdioma=null, txTraduccion=null, txSignificado=null;
             txNombre.setText(palabras.get(index).getNombre());
             txIdioma.setText(palabras.get(index).getIdioma());
@@ -101,64 +101,81 @@ public class Principal extends Activity {
                     });
             alert.setNegativeButton("cancelar",null);
             alert.show();
-        }else if (id == R.id.actAñadir){
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Añadir elemento");
-            LayoutInflater inflater = LayoutInflater.from(this);
-            final View vista = inflater.inflate(R.layout.aniadir, null);
-            alert.setView(vista);
-
-
-            alert.setPositiveButton("insertar",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String nombre, idioma, significado, traduccion;
-                            nombre = ((EditText) vista.findViewById(R.id.txNombre)).toString();
-                            idioma= ((EditText) vista.findViewById(R.id.txIdioma)).toString();
-                            significado= ((EditText) vista.findViewById(R.id.txSignificado)).toString();
-                            traduccion= ((EditText) vista.findViewById(R.id.txTraduccion)).toString();
-                            Palabra pal=new Palabra(nombre,idioma,traduccion,significado);
-                            palabras.set(index,pal);
-                            aa.notifyDataSetChanged();
-                            tostada("Elemento añadido");
-                        }
-                    });
-            alert.setNegativeButton("cancelar",null);
-            alert.show();
         }
         return super.onContextItemSelected(item);
     }
 
 
     /**********************************************************************************************/
+    public void mas(View view){
 
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Alta");
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final View vista = inflater.inflate(R.layout.aniadir, null);
+        alert.setView(vista);
+        alert.setPositiveButton("insertar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        String nombre, idioma, significado, traduccion;
+                        nombre = ((EditText) vista.findViewById(R.id.txNombre)).toString();
+                        idioma= ((EditText) vista.findViewById(R.id.txIdioma)).toString();
+                        significado= ((EditText) vista.findViewById(R.id.txSignificado)).toString();
+                        traduccion= ((EditText) vista.findViewById(R.id.txTraduccion)).toString();
+                        Palabra pal=new Palabra(nombre,idioma,traduccion,significado);
+                        palabras.add(pal);
+
+                        aa.notifyDataSetChanged();
+                        tostada("Elemento añadido");
+                    }
+                });
+        alert.setNegativeButton("cancelar",null);
+        alert.show();
+
+    }
 
 
     public void abrirDiccionario(View view) {
         setContentView(R.layout.diccionario);
 
         final ArrayList palabras=new ArrayList<Palabra>();
-        palabras.add( new Palabra("red", "ingles", "rojo", "Color"));
-        palabras.add( new Palabra("yellow", "ingles", "amarillo", "Color"));
+        palabras.add( new Palabra("red", "ingles", "rojo", ""));
+        palabras.add( new Palabra("yellow", "ingles", "amarillo", ""));
         palabras.add( new Palabra("Kartöfel", "aleman", "patata", ""));
+        palabras.add( new Palabra("hold on", "ingles", "espere", ""));
+        palabras.add( new Palabra("Salut", "frances", "hola", ""));
 
-        ListView lt = (ListView) findViewById(R.id.lista);
+        final ListView lt = (ListView) findViewById(R.id.lista);
         Adaptador aa = new Adaptador(this, R.layout.elemento, palabras);
         lt.setAdapter(aa);
 
+        lt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                tostada(((Palabra)palabras.get(i)).getNombre() );
+            }
+        });
         registerForContextMenu(lt);
+
+    }
+    public void atras(View view){
+        setContentView(R.layout.activity_principal);
+    }
+    public void fin(View view){
+        System.exit(0);
     }
 
     /****AUXILIARES*****/
     /**********************************************************************************************/
-    private void initComponents(){
 
-    }
 
     /******TOSTADA*******/
     private void tostada(String s){
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
+
 
 }

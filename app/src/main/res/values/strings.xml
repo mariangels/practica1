@@ -11,5 +11,11 @@
     <string name="actBorrar">Borrar</string>
     <string name="actModificar">Modificar</string>
     <string name="actAñadir">Añadir</string>
+    <string name="nombre">Nombre: </string>
+    <string name="idioma">Idioma: </string>
+    <string name="traduccion">Traduccion: </string>
+    <string name="significado">Significado: </string>
+    <string name="imagen">none</string>
+    <string name="añadir">Añadir</string>
 
 </resources>

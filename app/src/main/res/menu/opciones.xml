@@ -11,8 +11,4 @@
         android:title="@string/actModificar"
         android:orderInCategory="100"
         android:showAsAction="never" />
-    <item android:id="@+id/actAñadir"
-        android:title="@string/actAñadir"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
 </menu>
