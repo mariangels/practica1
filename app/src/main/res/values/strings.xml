@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Practica1</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="diccionario">Diccionario</string>
+    <string name="informacion">Información</string>
+    <string name="salir">Salir</string>
+    <string name="atras">Atrás</string>
+    <string name="actBorrar">Borrar</string>
+    <string name="actModificar">Modificar</string>
+    <string name="actAñadir">Añadir</string>
+
+</resources>
